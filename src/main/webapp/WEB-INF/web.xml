@@ -32,7 +32,7 @@
 			<!--springmvc 的配置文件的位置属性 -->
 			<param-name>contextConfigLocation</param-name>
 			<!-- 指定自定义文件的位置 -->
-			<param-value>classpath:spring-mvc.xml</param-value>
+			<param-value>classpath*:spring-mvc.xml</param-value>
 		</init-param>
 		<!-- 在tomcat启动时，创建Servlet对象 
 		load-on-startup:表示tomcat启动后创建对象的顺序。值越小，创建时间越早	
@@ -41,6 +41,11 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>springmvc</servlet-name>
-		<url-pattern>/</url-pattern>
+		<!-- 
+			使用框架的时候，url-pattern可以使用两种值
+			1.使用扩展名方式，语法 *.xxx
+			2.使用斜杠 "/"
+		 -->
+		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
 </web-app>

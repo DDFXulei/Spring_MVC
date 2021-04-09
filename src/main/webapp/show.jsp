@@ -4,7 +4,8 @@
 <title>First SpringMVC</title>
 </head>
 <body>
-<p>第一个springmvc项目</p>
-<p> <a href="some.do">发起some.do请求</a>  </p>
+<h3>show.jsp 从request作用域中获取数据</h3>
+<h3>msg数据：${msg}</h3>
+<h3>fun数据：${fun}</h3>
 </body>
 </html>
