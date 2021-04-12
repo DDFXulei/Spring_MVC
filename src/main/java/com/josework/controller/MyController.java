@@ -14,12 +14,43 @@ import org.springframework.web.servlet.ModelAndView;
  *          属性:1.value是一个String，表示一个请求的uri地址
  *
  *          位置：1.在方法的上面，常用的。
- *              2.在类的上面
+ *              2.在类的上面，所有请求地址的公共部分，叫做模块名称
  *           说明：使用RequestMapping修饰的方法叫做处理器方法或者控制器方法。
  *           使用@RequestMapping修饰的方法类似于Servlet中的doGet()和doPost()
  *
  *
  *  返回值 ModelAndView 表示本次请求的处理结果
+ *
+ *
+ *
+ *  springmvc处请求处理的过程
+ *  1）发起some.do请求
+ *  2) tomcat(web.xml--> url-pattern -->知道 *.do的请求给DispatcherServlet)
+ *  3) DispatcherServlet （根据spring-mvc.xml配置知道some.do-->doSome()）
+ *  4) DispatcherServlet 把some.do转发给MyController.doSome()方法。
+ *  5） 框架执行 doSome() 把得到ModelAndView进行处理，转发到show.jsp
+ *
+ *
+ * springmvc执行过程源码分析
+ * 1.tomcat启动，创建容器的过程
+ *      通过load-on-start标签指定的1，创建DispatcherServlet对象
+ *      DispatcherServlet的父类是继承自HttpServlet，它是一个servler，在被创建时，会执行init()方法。
+ *
+ *      在init方法中：
+ *      //创建容器，读取配置文件
+ *      WebApplicationContext ctx = new ClassPathXmlApplicationContext("spring-mvc.xml")
+ *      //把容器对象放入ServletContext中
+ *      getServletContext.setAttribute(key,ctx)
+ *
+ *     上面创建容器的作用：创建@controller注解所在的类的对象，创建MyController对象，
+ *     这个对象放入到springmvc的容器中，容器是map，类似map.put("MyController",MyController对象)
+ *
+ * 2.请求的处理过程
+ *
+ *
+ *
+ *
+ *
  */
 @Controller
 public class MyController {
