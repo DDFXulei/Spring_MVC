@@ -2,7 +2,11 @@ package com.josework.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 处理用户提交的请求，springmvc中是使用方法来处理的
@@ -55,14 +59,30 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class MyController {
 
-
-    @RequestMapping( value = "/some.do")
-    public ModelAndView doSome(){
+    /**
+     *逐个接收请求参数：
+     * 要求：处理器（控制器）方法的形参名和请求中参数名一致。
+     *       同名的请求参数赋值给同名的形参
+     * 框架接收请求参数
+     *      1. 使用request对象接收请求参数
+     *          String  strName= request.getParameter("name");
+     *          String strAge = request.getParameter("age");
+     *      2.springmvc框架通过DispatcherServerlet 调用MyController的doSome()方法
+     *          调用方法时，按照名称对应，把接收的参数赋值给形参
+     *          doSome(strName,Integer.valueOf(strAge))
+     *          框架会提供类型转换的功能，能把String转为int， long，float，double等类型
+     *          
+     *
+     */
+    @RequestMapping( value = "/some.do", method= RequestMethod.GET)
+    public ModelAndView doSome(
+            HttpServletRequest request,
+            HttpServletResponse response){
         ModelAndView mv = new ModelAndView();
 
         //添加数据，框架在请求的最后把数据放入到request作用域
         //request.setAttribute("msg","welcome to springmvc web apps!")
-        mv.addObject("msg","welcome to springmvc web apps!");
+        mv.addObject("msg","welcome to springmvc web apps!"+request.getParameter("name"));
         mv.addObject("fun","execute doSome function");
 
 
