@@ -1,5 +1,6 @@
 package com.josework.controller;
 
+import com.josework.entities.Student;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -84,6 +85,26 @@ public class MyController {
         //request.setAttribute("msg","welcome to springmvc web apps!")
         mv.addObject("msg","welcome to springmvc web apps!"+request.getParameter("name"));
         mv.addObject("fun","execute doSome function");
+
+
+        //指定视图的完整路径
+        //框架对视图执行forward操作， request.getRequestDispatcher("/show.jsp").forward(..)
+        mv.setViewName("/show.jsp");
+
+        return mv;
+
+    }
+
+    @RequestMapping( value = "/object.do", method= RequestMethod.GET)
+    public ModelAndView doObject(
+            Student student
+    ){
+        ModelAndView mv = new ModelAndView();
+
+        //添加数据，框架在请求的最后把数据放入到request作用域
+        //request.setAttribute("msg","welcome to springmvc web apps!")
+        mv.addObject("myName",student.getName());
+        mv.addObject("myAge",student.getAge());
 
 
         //指定视图的完整路径
