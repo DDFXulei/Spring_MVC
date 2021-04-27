@@ -1,5 +1,7 @@
 package com.josework.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.josework.entities.Student;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,6 +10,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * 处理用户提交的请求，springmvc中是使用方法来处理的
@@ -53,6 +57,12 @@ import javax.servlet.http.HttpServletResponse;
  * 2.请求的处理过程
  *
  *
+ * 3.处理器方法的返回值表示请求的处理结果：
+ *  1. ModelAndView: 有数据和视图，对视图执行Forward。
+ *  2. String: 表示视图，可以逻辑名称，也可以完整视图路径。
+ *  3. void: 不能表示数据，也不能表示视图。
+ *      在处理ajax的时候，可以使用void返回值。通过HttpServletResponse输出数据，响应ajax请求。
+ *      ajax请求服务器端返回的就是数据，和视图无关。
  *
  *
  *
@@ -110,8 +120,38 @@ public class MyController {
         //指定视图的完整路径
         //框架对视图执行forward操作， request.getRequestDispatcher("/show.jsp").forward(..)
         mv.setViewName("/show.jsp");
-
         return mv;
+
+    }
+
+    //处理器方法返回void，响应ajax请求。
+    @RequestMapping( value = "/receiveAjax.do")
+    public void doAjax(
+            HttpServletResponse response,
+            String name,
+            Integer age
+    ) throws IOException {
+        //处理ajax请求，使用json做数据的格式
+        Student student = new Student();
+        //service调用完成了，使用Student对象表示处理结果
+        student.setName(name);
+        student.setAge(age);
+
+        String json ="";
+        if(student != null){
+            ObjectMapper om = new ObjectMapper();
+            json = om.writeValueAsString(student);
+            System.out.println("Student对象转换的json字符串是："+json);
+
+        }
+
+        response.setContentType("application/json;charset=utf-8");
+        PrintWriter pw = response.getWriter();
+        pw.print(json);
+        pw.flush();
+        pw.close();
+
+
 
     }
 }
