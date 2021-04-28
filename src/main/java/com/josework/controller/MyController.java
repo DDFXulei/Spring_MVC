@@ -3,6 +3,7 @@ package com.josework.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.josework.entities.Student;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -63,7 +64,35 @@ import java.io.PrintWriter;
  *  3. void: 不能表示数据，也不能表示视图。
  *      在处理ajax的时候，可以使用void返回值。通过HttpServletResponse输出数据，响应ajax请求。
  *      ajax请求服务器端返回的就是数据，和视图无关。
+ *  4. Object: 例如String,Integer, Map, List,Student等等对象，
+ *      对象有属性，属性就是数据。所以返回Object表示数据，和视图无关。
+ *      可以使用对象表示的数据，响应ajax请求。
  *
+ *      现在ajax，主要使用json数据格式。实现步骤：
+ *      1.加入处理json工具库依赖，springmvc默认使用的是jackson
+ *      2.在springmvc配置文件中加入<mvc:annotation-driven> 注解驱动。
+ *          json = om.writeValueAsString(student);
+ *      3. 在处理器方法上加入@ResponseBody注解
+ *         response.setContentType("application/json;charset=utf-8");
+ *         PrintWriter pw = response.getWriter();
+ *         pw.print(json);
+ *
+ *      springmvc处理器方法返回Object，可以转为json输出到浏览器，响应ajax的内部原理。
+ *          1.<mvc:annotation-driven>注解驱动。
+ *              注解驱动实现的功能是 完成java对象到json，xml，text，二进制数据格式的转换。
+ *              HttpMessageConverter 接口，消息转换器。
+ *              功能：定义了java转为json，xml等数据格式的方法。这个接口有很多的实现类。
+ *              这些实现类完成 java对象到json，java对象到xml，java对象到二进制数据的转换
+ *
+ *          2. HttpMessageConverter
+ *
+ *          下面两个方法是控制器类把结果输出给浏览器时使用的：
+ *              1）.判断能否转换成相应的 mediaType 类型的数据
+ *              boolean canWrite(Class<?> clazz, @Nullable MediaType mediaType);
+ *
+ *              2）. 把处理器返回值的对象，调用jackson中的ObjectMapper转为json字符串。
+ *              void write(T t, @Nullable MediaType contentType, HttpOutputMessage outputMessage)
+ * 			throws IOException, HttpMessageNotWritableException;
  *
  *
  */
@@ -125,6 +154,7 @@ public class MyController {
     }
 
     //处理器方法返回void，响应ajax请求。
+    //手工实现ajax，json数据：代码有重复的 1. java对象转json对象，2.通过HttpServletResponse 输出json数据。
     @RequestMapping( value = "/receiveAjax.do")
     public void doAjax(
             HttpServletResponse response,
@@ -154,4 +184,8 @@ public class MyController {
 
 
     }
+
+
+
+
 }
