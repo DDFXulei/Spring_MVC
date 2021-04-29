@@ -7,6 +7,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -70,8 +71,10 @@ import java.io.PrintWriter;
  *
  *      现在ajax，主要使用json数据格式。实现步骤：
  *      1.加入处理json工具库依赖，springmvc默认使用的是jackson
+ *
  *      2.在springmvc配置文件中加入<mvc:annotation-driven> 注解驱动。
  *          json = om.writeValueAsString(student);
+ *
  *      3. 在处理器方法上加入@ResponseBody注解
  *         response.setContentType("application/json;charset=utf-8");
  *         PrintWriter pw = response.getWriter();
@@ -80,6 +83,13 @@ import java.io.PrintWriter;
  *      springmvc处理器方法返回Object，可以转为json输出到浏览器，响应ajax的内部原理。
  *          1.<mvc:annotation-driven>注解驱动。
  *              注解驱动实现的功能是 完成java对象到json，xml，text，二进制数据格式的转换。
+ *
+ *              <mvc:annotation-driven>在加入到springmvc配置文件后，会自动创建 HttpMessageConverter 接口的7个实现类对象，
+ *              包括 MappingJackson2HttpMessageConverter （使用jackson工具库中的ObjectMapper实现java对象转为json对象字符串的
+ *
+ *
+ *
+ *
  *              HttpMessageConverter 接口，消息转换器。
  *              功能：定义了java转为json，xml等数据格式的方法。这个接口有很多的实现类。
  *              这些实现类完成 java对象到json，java对象到xml，java对象到二进制数据的转换
@@ -87,12 +97,23 @@ import java.io.PrintWriter;
  *          2. HttpMessageConverter
  *
  *          下面两个方法是控制器类把结果输出给浏览器时使用的：
- *              1）.判断能否转换成相应的 mediaType 类型的数据
+ *              1）. canWrite 判断能否转换成相应的 mediaType 类型的数据
  *              boolean canWrite(Class<?> clazz, @Nullable MediaType mediaType);
  *
- *              2）. 把处理器返回值的对象，调用jackson中的ObjectMapper转为json字符串。
+ *              2）. write方法 把处理器返回值的对象，调用jackson中的ObjectMapper转为json字符串。
  *              void write(T t, @Nullable MediaType contentType, HttpOutputMessage outputMessage)
  * 			throws IOException, HttpMessageNotWritableException;
+ *
+ *
+ * 	        3. @ResponseBody注解
+ * 	        放在处理器的上面，通过 HttpServletResponse 输出数据，响应ajax请求
+ *
+ * 	            相当于：
+ * 	                   PrintWriter pw = response.getWriter();
+ *                     pw.print(json);
+ *                     pw.flush();
+ *                     pw.close();
+ *
  *
  *
  */
@@ -180,6 +201,8 @@ public class MyController {
         pw.print(json);
         pw.flush();
         pw.close();
+
+
 
 
 

@@ -25,4 +25,7 @@
 		</mvc:message-converters>
 	</mvc:annotation-driven>
 
+	<!-- 没有注解驱动 -->
+<!--	<mvc:annotation-driven/>-->
+
 </beans>
