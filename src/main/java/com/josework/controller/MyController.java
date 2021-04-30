@@ -7,6 +7,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -202,12 +203,53 @@ public class MyController {
         pw.flush();
         pw.close();
 
+    }
 
 
+    /**
+     * 处理器方法返回Student对象，通过框架转为json对象，响应ajax请求。
+     * @ResponseBody:
+     *  作用：把处理器方法返回的对象转为json后，通过 HttpServletResponse 输出给浏览器。
+     *  位置：方法的定义上面。 和其他注解没有先后顺序
+     *
+     * 返回对象框架的处理流程：
+     *  1. 框架会把返回的Student类型，调用框架中的ArrayList<HttpMessageConverter>中每个类的canWrite()方法
+     *      检查哪个HttpMessageConverter接口的实现类能处理Student类型的数据 -- MappingJackson2HttpMessageConverter -> true
+     *
+     *  2. 框架会调用实现类的write()方法， MappingJackon2HttpMessageConverter的write()方法
+     *      把 Student类的对象转为json，调用Jackson的ObjectMapper实现转为json。
+     *
+     *  3. 框架会调用 @ResponseBody 把 2 的结果数据输出到浏览器，ajax请求处理完成。
+     *
+     *
+     * @param response
+     * @return
+     */
+    @RequestMapping("/returnStrudentJson.do")
+    @ResponseBody
+    public Student returnStuentJson(HttpServletResponse response){
 
+        Student st = new Student();
+        st.setName("李四");
+        st.setAge(22);
+        return  st;
 
     }
 
+    /**
+     * 处理器方法返回String，String可以表示数据，不是视图。
+     *
+     * 区分返回值String是数据，还是视图，看有没有 @ResponseBody 注解
+     * 如果有 @ResponseBody 注解，返回String就是数据，反之就是视图。
+     *
+     *
+     */
+    @RequestMapping(value = "/doSomeString.do", produces = "text/plain;charset=utf-8")
+    @ResponseBody
+    public String doSomeString(){
+        return ("Hello, SpringMVC! 中国第一");
+
+    }
 
 
 

@@ -8,15 +8,19 @@
         $("button").click(function(){
             //alert("button clicked!")
             $.ajax({
-                url:"receiveAjax.do",
+                //url:"returnPDF.do",
+                url: "doSomeString.do",
                 data: {
                     name:"zhangsan",
                     age:22
                 },
                 type:"post",
-                dataType:"json",
+                //dataType:"json",
+                dataType: "text",
                 success: function(response){
-                    alert("name:"+response.name+" "+"age:"+response.age)
+                    //alert("name:"+response.name+" "+"age:"+response.age)
+                    alert(response);
+
                 }
                     })
 
