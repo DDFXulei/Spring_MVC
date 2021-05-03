@@ -45,6 +45,12 @@
 			使用框架的时候，url-pattern可以使用两种值
 			1.使用扩展名方式，语法 *.xxx
 			2.使用斜杠 "/"
+				当项目中使用了 /，他会代替 tomcat中的default。
+				导致所有的静态资源都给 DispatcherServlet 处理，默认情况下 DispatcherServlet 没有处理静态资源的能力，
+				没有控制器对象能处理静态资源的访问。所以静态资源（html，js，css，图片...）都是404。
+
+				动态资源some.do都是可以访问的，因为我们的程序中有MyController控制器对象，能处理some.do请求。
+
 		 -->
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>

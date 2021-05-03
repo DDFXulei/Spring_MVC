@@ -28,4 +28,12 @@
 	<!-- 注解驱动 -->
 	<mvc:annotation-driven/>
 
+	<mvc:default-servlet-handler/>
+
+	<!--使用一个配置语句，指定多种静态资源的访问-->
+	<mvc:resources mapping="/static/" location="/static/" />
+
+
+
+
 </beans>

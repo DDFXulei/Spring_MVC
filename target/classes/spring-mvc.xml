@@ -28,4 +28,6 @@
 	<!-- 注解驱动 -->
 	<mvc:annotation-driven/>
 
+	<mvc:default-servlet-handler/>
+
 </beans>
