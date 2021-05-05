@@ -43,6 +43,7 @@
       <artifactId>spring-oxm</artifactId>
       <version>${spring.version}</version>
     </dependency>
+    <!--    事务-->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-tx</artifactId>
@@ -82,6 +83,12 @@
       <version>1.2.2</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.mybatis</groupId>
+      <artifactId>mybatis</artifactId>
+      <version>3.5.2</version>
+    </dependency>
+
     <!--MySQL 驱动包-->
     <dependency>
       <groupId>mysql</groupId>
@@ -94,13 +101,13 @@
       <artifactId>maven-model</artifactId>
       <version>3.0</version>
     </dependency>
-
+    <!-- servlet依赖   -->
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
       <version>3.1.0</version>
     </dependency>
-
+    
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -127,6 +134,11 @@
       <version>2.9.1</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>druid</artifactId>
+      <version>1.1.10</version>
+    </dependency>
 
   </dependencies>
 

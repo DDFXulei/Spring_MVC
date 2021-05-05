@@ -247,7 +247,7 @@ public class MyController {
     @RequestMapping(value = "/doSomeString.do", produces = "text/plain;charset=utf-8")
     @ResponseBody
     public String doSomeString(){
-        return ("Hello, SpringMVC! 中国第一");
+        return ("\"xyz123/sijiwabc==\"");
 
     }
 
