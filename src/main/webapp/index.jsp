@@ -15,7 +15,7 @@
             //alert("button clicked!")
             $.ajax({
                 //url:"returnPDF.do",
-                url: "doSomeString.do",
+                url: "receiveAjax.do",
                 data: {
                     name:"zhangsan",
                     age:22
@@ -53,7 +53,7 @@
             <td><a href="addStudent.jsp">注册学生</a></td>
         </tr>
         <tr>
-            <td>浏览学生</td>
+            <td><a href="listStudent.jsp">浏览学生</a></td>
         </tr>
      </table>
 

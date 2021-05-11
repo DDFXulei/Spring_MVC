@@ -11,7 +11,7 @@
 <base href="<%=basePath%>"/>
 <body>
     <div align="center">
-        <form action="student/addStudent.do">
+        <form action="student/addStudent.do" method="post">
             <table>
                 <tr>
                     <td>学生姓名：</td>
