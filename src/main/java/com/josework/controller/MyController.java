@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -232,6 +233,8 @@ public class MyController {
         Student st = new Student();
         st.setName("李四");
         st.setAge(22);
+        String s = "sdfsf";
+        System.out.println(s.length());
         return  st;
 
     }
@@ -250,6 +253,10 @@ public class MyController {
         return ("\"xyz123/sijiwabc==\"");
 
     }
+
+
+
+
 
 
 

@@ -22,7 +22,6 @@ public class StudentController {
         int nums = service.addStudent(student);
         if(nums > 0){
             tips = "学生：【"+student.getName()+"】，注册成功！";
-
         }
         //添加数据
         mv.addObject("tips",tips);
